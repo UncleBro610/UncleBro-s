@@ -1,0 +1,32 @@
+// Updated TickerPage with Ad Injection and Timer for Full-Screen Ad import { useEffect, useState } from 'react';
+
+const sources = ["celebrity", "local", "world", "sports", "horoscope", "stock", "time"];
+
+export default function TickerPage() { const [items, setItems] = useState<string[]>([]); const [showFullAd, setShowFullAd] = useState(false);
+
+useEffect(() => { // Simulate ticker feed setItems([ "TMZ: Star spotted!", "Local: Event this weekend", "World: G20 update", "Horoscope: Big changes ahead", "Stocks: NASDAQ up 2%", new Date().toLocaleTimeString(), "E!: Drama unfolds on set!", "Easton: Weather alert today", "Sports: Final 4 showdown", "IMDB: New release hype" ]);
+
+// Full-screen ad every 20 minutes
+const adInterval = setInterval(() => {
+  setShowFullAd(true);
+}, 20 * 60 * 1000); // 20 minutes
+
+return () => clearInterval(adInterval);
+
+}, []);
+
+const closeFullAd = () => setShowFullAd(false);
+
+return ( <div className="relative overflow-hidden whitespace-nowrap bg-gray-100 p-4"> <div className="animate-marquee inline-block"> {items.map((item, i) => ( <span key={i} className="mx-8"> {item} {(i + 1) % 5 === 0 && ( <span className="ml-8 bg-yellow-200 px-4 py-1 rounded cursor-pointer hover:bg-yellow-300">Sponsored: Click Here</span> )} </span> ))} </div>
+
+{showFullAd && (
+    <div className="absolute inset-0 bg-white bg-opacity-95 z-50 flex flex-col items-center justify-center">
+      <h2 className="text-3xl font-bold mb-4">Full-Screen Ad</h2>
+      <p className="mb-4">Your brand here! Reach thousands of users.</p>
+      <button onClick={closeFullAd} className="bg-red-600 text-white px-6 py-2 rounded">Close Ad</button>
+    </div>
+  )}
+</div>
+
+); }
+
