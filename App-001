@@ -1,0 +1,29 @@
+// Phase 1: Full Feature Scaffold for Scrolling Ticker App
+
+// Pages: Home, Terms, Privacy, Settings, Customize, Ticker, AI Assistant
+
+// /pages/index.tsx (Home Screen with Navigation) import Link from 'next/link';
+
+export default function HomePage() { return ( <main className="p-6 space-y-4 text-lg font-sans"> <h1 className="text-3xl font-semibold">Welcome to TickerVerse</h1> <nav className="flex flex-wrap gap-4"> <Link href="/ticker" className="text-blue-600 underline">Live Ticker</Link> <Link href="/customize" className="text-blue-600 underline">Customize</Link> <Link href="/ai" className="text-blue-600 underline">Ask-the-Ticker</Link> <Link href="/settings" className="text-blue-600 underline">Settings</Link> <Link href="/terms" className="text-blue-600 underline">Terms</Link> <Link href="/privacy" className="text-blue-600 underline">Privacy</Link> </nav> </main> ); }
+
+// /pages/ticker.tsx (Scrolling Ticker Page) import { useEffect, useState } from 'react';
+
+const sources = ["celebrity", "local", "world", "sports", "horoscope", "stock", "time"];
+
+export default function TickerPage() { const [items, setItems] = useState<string[]>([]);
+
+useEffect(() => { async function fetchItems() { // Placeholder fetch simulation setItems(["TMZ: Star spotted!", "Local: Event this weekend", "World: G20 update", "Horoscope: Big changes ahead", "Stocks: NASDAQ up 2%", new Date().toLocaleTimeString()]); } fetchItems(); }, []);
+
+return ( <div className="overflow-hidden whitespace-nowrap bg-gray-100 p-4"> <div className="animate-marquee inline-block"> {items.map((item, i) => ( <span key={i} className="mx-8">{item}</span> ))} </div> </div> ); }
+
+// /pages/ai.tsx (Ask-the-Ticker AI Assistant) import { useState } from 'react';
+
+export default function AIPage() { const [query, setQuery] = useState(''); const [response, setResponse] = useState('');
+
+const ask = async () => { setResponse("Thinking..."); setTimeout(() => setResponse(Answer: "${query}" info summarized here.), 1000); };
+
+return ( <div className="p-6 space-y-4"> <h1 className="text-xl font-semibold">Ask the Ticker</h1> <input type="text" className="border p-2 w-full" placeholder="Ask about celebrity news, sports, stocks..." value={query} onChange={(e) => setQuery(e.target.value)} /> <button onClick={ask} className="bg-blue-600 text-white px-4 py-2 rounded">Ask</button> <p>{response}</p> </div> ); }
+
+// /pages/customize.tsx export default function CustomizePage() { return ( <div className="p-6"> <h1 className="text-xl font-bold mb-4">Customize Your Ticker</h1> <form className="space-y-2"> <label><input type="checkbox" defaultChecked /> Celebrity News</label><br /> <label><input type="checkbox" defaultChecked /> Local News</label><br /> <label><input type="checkbox" defaultChecked /> World News</label><br /> <label><input type="checkbox" defaultChecked /> Sports</label><br /> <label><input type="checkbox" defaultChecked /> Horoscope</label><br /> <label><input type="checkbox" defaultChecked /> Stock Market</label><br /> <label><input type="checkbox" defaultChecked /> Time</label><br /> <button className="bg-green-600 text-white px-4 py-2 rounded">Save</button> </form> </div> ); }
+
+// /pages/settings.tsx (Privacy, Age Verification, Security) export default function SettingsPage() { return ( <div className="p-6 space-y-4"> <h1 className="text-xl font-semibold">User Settings & Privacy</h1> <div> <label>Date of Birth: <input type="date" className="border p-1" /></label> </div> <p>Your age will be verified to ensure age-appropriate content.</p> <p>Security and Privacy: All data is encrypted and consent-based.</p> </div> ); }
